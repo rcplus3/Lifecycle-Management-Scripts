@@ -6,9 +6,9 @@
 
 ::============================================================================
 ::
-::   Lifecycle Management Script (IAS)
+::   IDM Activation Script (IAS)
 ::
-::   Homepages: https://github.com/rcplus3/Lifecycle-Management-Script
+::   Homepages: https://github.com/lstprjct/IDM-Activation-Script
 ::              https://t.me/ModByPiash/5
 ::
 ::       Telegram: @Stripe_op
@@ -63,7 +63,7 @@ exit /b
 ::========================================================================================================================================
 
 set "blank="
-set "mas=https://github.com/rcplus3/Lifecycle-Management-Script/wiki/"
+set "mas=https://github.com/lstprjct/IDM-Activation-Script/wiki/"
 
 ::  Check if Null service is working, it's important for the batch script
 
@@ -97,7 +97,7 @@ popd
 
 cls
 color 07
-title  Lifecycle Management Script %iasver%
+title  IDM Activation Script %iasver%
 
 set _args=
 set _elev=
@@ -266,7 +266,7 @@ if defined quedit goto :skipQE
 ::========================================================================================================================================
 
 cls
-title  Lifecycle Management Script %iasver%
+title  IDM Activation Script %iasver%
 
 echo:
 echo Initializing...
@@ -365,20 +365,21 @@ if %_freeze%==1 (set frz=1&goto :_activate)
 :MainMenu
 
 cls
-title  Lifecycle Management Script %iasver%
+title  IDM Activation Script %iasver%
 if not defined terminal mode 75, 28
 
 echo:
 echo:
-call :_color2 %_White% "             " %_Green% "POC: chaorj@plus3it.com"
+call :_color2 %_White% "             " %_Green% "Create By Piash"
 echo:            ___________________________________________________ 
 echo:
-echo:               Github: https://github.com/rcplus3
+echo:               Telegram: @ModByPiash
+echo:               Github: https://github.com/lstprjct
 echo:            ___________________________________________________ 
 echo:                                                               
-echo:               [1] Unlock
-echo:               [2] Confirm
-echo:               [3] Add ACL group
+echo:               [1] Activate
+echo:               [2] Freeze Trial
+echo:               [3] Reset Activation / Trial
 echo:               _____________________________________________   
 echo:                                                               
 echo:               [4] Download IDM
@@ -391,7 +392,7 @@ choice /C:123450 /N
 set _erl=%errorlevel%
 
 if %_erl%==6 exit /b
-if %_erl%==5 start https://github.com/rcplus3/Lifecycle-Management-Script & goto MainMenu
+if %_erl%==5 start https://github.com/lstprjct/IDM-Activation-Script & goto MainMenu
 if %_erl%==4 start https://www.internetdownloadmanager.com/download.html & goto MainMenu
 if %_erl%==3 goto _reset
 if %_erl%==2 (set frz=1&goto :_activate)
@@ -574,7 +575,7 @@ echo:
 echo %line%
 echo:
 if %frz%==0 (
-call :_color %Green% "The Lifecycle Management process has been completed."
+call :_color %Green% "The IDM Activation process has been completed."
 echo:
 call :_color %Gray% "If the fake serial screen appears, use the Freeze Trial option instead."
 ) else (
