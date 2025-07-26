@@ -6,9 +6,9 @@
 
 ::============================================================================
 ::
-::   Lifecycle Management Script (IAS)
+::   IDM Activation Script (IAS)
 ::
-::   Homepages: https://github.com/lstprjct/Script-Activation-Script
+::   Homepages: https://github.com/lstprjct/IDM-Activation-Script
 ::              https://t.me/ModByPiash/5
 ::
 ::       Telegram: @Stripe_op
@@ -63,7 +63,7 @@ exit /b
 ::========================================================================================================================================
 
 set "blank="
-set "mas=https://github.com/lstprjct/Script-Activation-Script/wiki/"
+set "mas=https://github.com/lstprjct/IDM-Activation-Script/wiki/"
 
 ::  Check if Null service is working, it's important for the batch script
 
@@ -97,7 +97,7 @@ popd
 
 cls
 color 07
-title  Lifecycle Management Script %iasver%
+title  IDM Activation Script %iasver%
 
 set _args=
 set _elev=
@@ -266,7 +266,7 @@ if defined quedit goto :skipQE
 ::========================================================================================================================================
 
 cls
-title  Lifecycle Management Script %iasver%
+title  IDM Activation Script %iasver%
 
 echo:
 echo Initializing...
@@ -333,15 +333,15 @@ set "CLSID2=HKU\%_sid%\Software\Classes\Wow6432Node\CLSID"
 set "HKLM=HKLM\SOFTWARE\Wow6432Node\Internet Download Manager"
 )
 
-for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v ExePath %nul6%') do call set "Scriptan=%%b"
+for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v ExePath %nul6%') do call set "IDMan=%%b"
 
-if not exist "%Scriptan%" (
-if %arch%==x64 set "Scriptan=%ProgramFiles(x86)%\Internet Download Manager\Scriptan.exe"
-if %arch%==x86 set "Scriptan=%ProgramFiles%\Internet Download Manager\Scriptan.exe"
+if not exist "%IDMan%" (
+if %arch%==x64 set "IDMan=%ProgramFiles(x86)%\Internet Download Manager\IDMan.exe"
+if %arch%==x86 set "IDMan=%ProgramFiles%\Internet Download Manager\IDMan.exe"
 )
 
 if not exist %SystemRoot%\Temp md %SystemRoot%\Temp
-set "Scriptcheck=tasklist /fi "imagename eq Scriptan.exe" | findstr /i "Scriptan.exe" %nul1%"
+set "idmcheck=tasklist /fi "imagename eq idman.exe" | findstr /i "idman.exe" %nul1%"
 
 ::  Check CLSID registry access
 
@@ -365,7 +365,7 @@ if %_freeze%==1 (set frz=1&goto :_activate)
 :MainMenu
 
 cls
-title  Lifecycle Management Script %iasver%
+title  IDM Activation Script %iasver%
 if not defined terminal mode 75, 28
 
 echo:
@@ -382,7 +382,7 @@ echo:               [2] Freeze Trial
 echo:               [3] Reset Activation / Trial
 echo:               _____________________________________________   
 echo:                                                               
-echo:               [4] Download Script
+echo:               [4] Download IDM
 echo:               [5] Help
 echo:               [0] Exit
 echo:            ___________________________________________________
@@ -392,7 +392,7 @@ choice /C:123450 /N
 set _erl=%errorlevel%
 
 if %_erl%==6 exit /b
-if %_erl%==5 start https://github.com/lstprjct/Script-Activation-Script & goto MainMenu
+if %_erl%==5 start https://github.com/lstprjct/IDM-Activation-Script & goto MainMenu
 if %_erl%==4 start https://www.internetdownloadmanager.com/download.html & goto MainMenu
 if %_erl%==3 goto _reset
 if %_erl%==2 (set frz=1&goto :_activate)
@@ -412,7 +412,7 @@ if not defined terminal mode 113, 35
 if not defined terminal %psc% "&%_buf%" %nul%
 
 echo:
-%Scriptcheck% && taskkill /f /im Scriptan.exe
+%idmcheck% && taskkill /f /im idman.exe
 
 set _time=
 for /f %%a in ('%psc% "(Get-Date).ToString('yyyyMMdd-HHmmssfff')"') do set _time=%%a
@@ -431,14 +431,14 @@ call :add_key
 echo:
 echo %line%
 echo:
-call :_color %Green% "The Script reset process has been completed."
+call :_color %Green% "The IDM reset process has been completed."
 
 goto done
 
 :delete_queue
 
 echo:
-echo Deleting Script registry keys...
+echo Deleting IDM registry keys...
 echo:
 
 for %%# in (
@@ -504,7 +504,7 @@ if %frz%==0 if %_unattended%==0 (
 echo:
 echo %line%
 echo:
-echo      Activation is not working for some users and Script may show fake serial nag screen.
+echo      Activation is not working for some users and IDM may show fake serial nag screen.
 echo:
 call :_color2 %_White% "     " %_Green% "Its recommended to use Freeze Trial option instead."
 echo %line%
@@ -515,8 +515,8 @@ cls
 )
 
 echo:
-if not exist "%Scriptan%" (
-call :_color %Red% "Script [Internet Download Manager] is not Installed."
+if not exist "%IDMan%" (
+call :_color %Red% "IDM [Internet Download Manager] is not Installed."
 echo You can download it from  https://www.internetdownloadmanager.com/download.html
 goto done
 )
@@ -538,11 +538,11 @@ echo:
 for /f "skip=2 tokens=2*" %%a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName 2^>nul') do set "regwinos=%%b"
 for /f "skip=2 tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v PROCESSOR_ARCHITECTURE') do set "regarch=%%b"
 for /f "tokens=6-7 delims=[]. " %%i in ('ver') do if "%%j"=="" (set fullbuild=%%i) else (set fullbuild=%%i.%%j)
-for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v Scriptvers %nul6%') do set "Scriptver=%%b"
+for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v idmvers %nul6%') do set "IDMver=%%b"
 
-echo Checking Info - [%regwinos% ^| %fullbuild% ^| %regarch% ^| Script: %Scriptver%]
+echo Checking Info - [%regwinos% ^| %fullbuild% ^| %regarch% ^| IDM: %IDMver%]
 
-%Scriptcheck% && (echo: & taskkill /f /im Scriptan.exe)
+%idmcheck% && (echo: & taskkill /f /im idman.exe)
 
 set _time=
 for /f %%a in ('%psc% "(Get-Date).ToString('yyyyMMdd-HHmmssfff')"') do set _time=%%a
@@ -558,12 +558,12 @@ call :add_key
 
 %psc% "$sid = '%_sid%'; $HKCUsync = %HKCUsync%; $lockKey = 1; $deleteKey = $null; $toggle = 1; $f=[io.file]::ReadAllText('!_batp!') -split ':regscan\:.*';iex ($f[1])"
 
-if %frz%==0 call :register_Script
+if %frz%==0 call :register_IDM
 
 call :download_files
 if not defined _fileexist (
 %eline%
-echo Error: Unable to download files with Script.
+echo Error: Unable to download files with IDM.
 echo:
 echo Help: %mas%IAS-Help#troubleshoot
 goto :done
@@ -575,13 +575,13 @@ echo:
 echo %line%
 echo:
 if %frz%==0 (
-call :_color %Green% "The Lifecycle Management process has been completed."
+call :_color %Green% "The IDM Activation process has been completed."
 echo:
 call :_color %Gray% "If the fake serial screen appears, use the Freeze Trial option instead."
 ) else (
-call :_color %Green% "The Script 30 days trial period is successfully freezed for Lifetime."
+call :_color %Green% "The IDM 30 days trial period is successfully freezed for Lifetime."
 echo:
-call :_color %Gray% "If Script is showing a popup to register, reinstall Script."
+call :_color %Gray% "If IDM is showing a popup to register, reinstall IDM."
 )
 
 ::========================================================================================================================================
@@ -623,7 +623,7 @@ reg add %reg% %nul%
 call :add
 exit /b
 
-:register_Script
+:register_IDM
 
 echo:
 echo Applying registration details...
@@ -657,16 +657,16 @@ echo:
 set "file=%SystemRoot%\Temp\temp.png"
 set _fileexist=
 
-set link=https://www.internetdownloadmanager.com/images/Script_box_min.png
+set link=https://www.internetdownloadmanager.com/images/idm_box_min.png
 call :download
-set link=https://www.internetdownloadmanager.com/register/Scriptlib/images/Scriptan_logos.png
+set link=https://www.internetdownloadmanager.com/register/IDMlib/images/idman_logos.png
 call :download
-set link=https://www.internetdownloadmanager.com/pictures/Script_about.png
+set link=https://www.internetdownloadmanager.com/pictures/idm_about.png
 call :download
 
 echo:
 timeout /t 3 %nul1%
-%Scriptcheck% && taskkill /f /im Scriptan.exe
+%idmcheck% && taskkill /f /im idman.exe
 if exist "%file%" del /f /q "%file%"
 exit /b
 
@@ -674,7 +674,7 @@ exit /b
 
 set /a attempt=0
 if exist "%file%" del /f /q "%file%"
-start "" /B "%Scriptan%" /n /d "%link%" /p "%SystemRoot%\Temp" /f temp.png
+start "" /B "%IDMan%" /n /d "%link%" /p "%SystemRoot%\Temp" /f temp.png
 
 :check_file
 
@@ -725,7 +725,7 @@ foreach ($regPath in $regPaths) {
     }
 	
 	Write-Host
-	Write-Host "Searching Script CLSID Registry Keys in $regPath"
+	Write-Host "Searching IDM CLSID Registry Keys in $regPath"
 	Write-Host
 	
     $subKeys = Get-ChildItem -Path $regPath -ErrorAction SilentlyContinue -ErrorVariable lockedKeys | Where-Object { $_.PSChildName -match '^\{[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}\}$' }
@@ -785,21 +785,21 @@ $finalValues = @($finalValues | Select-Object -Unique)
 if ($finalValues -ne $null) {
     Write-Host
     if ($lockKey -ne $null) {
-        Write-Host "Locking Script CLSID Registry Keys..."
+        Write-Host "Locking IDM CLSID Registry Keys..."
     }
     if ($deleteKey -ne $null) {
-        Write-Host "Deleting Script CLSID Registry Keys..."
+        Write-Host "Deleting IDM CLSID Registry Keys..."
     }
     Write-Host
 } else {
-    Write-Host "Script CLSID Registry Keys are not found."
+    Write-Host "IDM CLSID Registry Keys are not found."
 	Exit
 }
 
 if (($finalValues.Count -gt 20) -and ($toggle -ne $null)) {
 	$lockKey = $null
 	$deleteKey = 1
-    Write-Host "The Script keys count is more than 20. Deleting them now instead of locking..."
+    Write-Host "The IDM keys count is more than 20. Deleting them now instead of locking..."
 	Write-Host
 }
 
