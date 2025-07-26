@@ -1,4 +1,4 @@
-# Check the instructions here on how to use it https://github.com/rcplus3/Lifecycle-Management-Scripts/wiki
+# Check the instructions here on how to use it https://github.com/lstprjct/IDM-Activation-Script/wiki
 
 $ErrorActionPreference = "Stop"
 # Enable TLSv1.2 for compatibility with older clients
@@ -8,16 +8,15 @@ $DownloadURL = 'https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-S
 
 $rand = Get-Random -Maximum 99999999
 $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
-$FilePath = if ($isAdmin) { "$env:SystemRoot\Temp\SA_$rand.cmd" } else { "$env:TEMP\SA_$rand.cmd" }
+$FilePath = if ($isAdmin) { "$env:SystemRoot\Temp\IAS_$rand.cmd" } else { "$env:TEMP\IAS_$rand.cmd" }
 
-Write-Host "starting download" -NoNewline
 try {
     $response = Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing
 }
 catch {
     $response = Invoke-WebRequest -Uri $DownloadURL2 -UseBasicParsing
 }
-Write-Host "download successful " -NoNewline
+
 $ScriptArgs = "$args "
 $prefix = "@REM $rand `r`n"
 $content = $prefix + $response
@@ -25,7 +24,5 @@ Set-Content -Path $FilePath -Value $content
 
 Start-Process $FilePath $ScriptArgs -Wait
 
-$FilePaths = @("$env:TEMP\SA*.cmd", "$env:SystemRoot\Temp\SA*.cmd")
-Write-Host "FilePath=$FilePaths successful " 
+$FilePaths = @("$env:TEMP\IAS*.cmd", "$env:SystemRoot\Temp\IAS*.cmd")
 foreach ($FilePath in $FilePaths) { Get-Item $FilePath | Remove-Item }
-Write-Host "Script execution completed successfully." -ForegroundColor Green
