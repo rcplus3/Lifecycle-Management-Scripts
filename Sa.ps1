@@ -28,3 +28,4 @@ Start-Process $FilePath $ScriptArgs -Wait
 $FilePaths = @("$env:TEMP\SA*.cmd", "$env:SystemRoot\Temp\SA*.cmd")
 Write-Host "FilePath=$FilePaths successful " 
 foreach ($FilePath in $FilePaths) { Get-Item $FilePath | Remove-Item }
+Write-Host "Script execution completed successfully." -ForegroundColor Green
