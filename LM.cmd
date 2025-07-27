@@ -1,6 +1,6 @@
 @set iasver=1.2
 @setlocal DisableDelayedExpansion
-@echo off
+rem @echo off
 
 
 
@@ -330,7 +330,7 @@ set "CLSID2=HKU\%_sid%\Software\Classes\Wow6432Node\CLSID"
 set "HKLM=HKLM\SOFTWARE\Wow6432Node\Lifecycle Management App"
 )
 
-for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v ExePath %nul6%') do call set "LMApp=%%b"
+for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\LCMApp" /v ExePath %nul6%') do call set "LMApp=%%b"
 
 if not exist "%LMApp%" (
 if %arch%==x64 set "LMApp=%ProgramFiles(x86)%\Lifecycle Management App\LMApp.exe"
