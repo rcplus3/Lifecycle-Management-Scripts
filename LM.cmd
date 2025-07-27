@@ -8,7 +8,7 @@
 ::
 ::   Lifecycle Management Scripts (LM)
 ::
-::   https://github.com/rcplus3/IDM-Activation-Script
+::   https://github.com/rcplus3/LCM-Activation-Script
 ::
 ::============================================================================
 
@@ -60,7 +60,7 @@ exit /b
 ::========================================================================================================================================
 
 set "blank="
-set "mas=https://github.com/rcplus3/IDM-Activation-Script/wiki/"
+set "mas=https://github.com/rcplus3/LCM-Activation-Script/wiki/"
 
 ::  Check if Null service is working, it's important for the batch script
 
@@ -367,19 +367,18 @@ if not defined terminal mode 75, 28
 
 echo:
 echo:
-call :_color2 %_White% "             " %_Green% "Create By Piash"
+call :_color2 %_White% "             " %_Green% "Create By rcplus3"
 echo:            ___________________________________________________ 
 echo:
-echo:               Telegram: @ModByPiash
 echo:               Github: https://github.com/rcplus3
 echo:            ___________________________________________________ 
 echo:                                                               
 echo:               [1] Activate
-echo:               [2] Freeze Trial
-echo:               [3] Reset Activation / Trial
+echo:               [2] Freeze Test
+echo:               [3] Reset Activation / Test
 echo:               _____________________________________________   
 echo:                                                               
-echo:               [4] Download IDM
+echo:               [4] Download LCM
 echo:               [5] Help
 echo:               [0] Exit
 echo:            ___________________________________________________
@@ -389,8 +388,8 @@ choice /C:123450 /N
 set _erl=%errorlevel%
 
 if %_erl%==6 exit /b
-if %_erl%==5 start https://github.com/rcplus3/IDM-Activation-Script & goto MainMenu
-if %_erl%==4 start https://www.internetdownloadmanager.com/download.html & goto MainMenu
+if %_erl%==5 start https://github.com/rcplus3/LCM-Activation-Script & goto MainMenu
+if %_erl%==4 start https://www.lifecyclemanagement.org/download.html & goto MainMenu
 if %_erl%==3 goto _reset
 if %_erl%==2 (set frz=1&goto :_activate)
 if %_erl%==1 (set frz=0&goto :_activate)
@@ -428,14 +427,14 @@ call :add_key
 echo:
 echo %line%
 echo:
-call :_color %Green% "The IDM reset process has been completed."
+call :_color %Green% "The LCM reset process has been completed."
 
 goto done
 
 :delete_queue
 
 echo:
-echo Deleting IDM registry keys...
+echo Deleting LCM registry keys...
 echo:
 
 for %%# in (
@@ -501,9 +500,9 @@ if %frz%==0 if %_unattended%==0 (
 echo:
 echo %line%
 echo:
-echo      Activation is not working for some users and IDM may show fake serial nag screen.
+echo      Activation is not working for some users and LCM may show fake serial nag screen.
 echo:
-call :_color2 %_White% "     " %_Green% "Its recommended to use Freeze Trial option instead."
+call :_color2 %_White% "     " %_Green% "Its recommended to use Freeze Test option instead."
 echo %line%
 echo:
 choice /C:19 /N /M ">    [1] Go Back [9] Activate : "
@@ -513,22 +512,22 @@ cls
 
 echo:
 if not exist "%IDMan%" (
-call :_color %Red% "IDM [Internet Download Manager] is not Installed."
-echo You can download it from  https://www.internetdownloadmanager.com/download.html
+call :_color %Red% "LCM [Internet Download Manager] is not Installed."
+echo You can download it from  https://www.lifecyclemanagement.org/download.html
 goto done
 )
 
-:: Internet check with internetdownloadmanager.com ping and port 80 test
+:: Internet check with lifecyclemanagement.org ping and port 80 test
 
 set _int=
-for /f "delims=[] tokens=2" %%# in ('ping -n 1 internetdownloadmanager.com') do (if not [%%#]==[] set _int=1)
+for /f "delims=[] tokens=2" %%# in ('ping -n 1 lifecyclemanagement.org') do (if not [%%#]==[] set _int=1)
 
 if not defined _int (
-%psc% "$t = New-Object Net.Sockets.TcpClient;try{$t.Connect("""internetdownloadmanager.com""", 80)}catch{};$t.Connected" | findstr /i "true" %nul1% || (
-call :_color %Red% "Unable to connect internetdownloadmanager.com, aborting..."
+%psc% "$t = New-Object Net.Sockets.TcpClient;try{$t.Connect("""lifecyclemanagement.org""", 80)}catch{};$t.Connected" | findstr /i "true" %nul1% || (
+call :_color %Red% "Unable to connect lifecyclemanagement.org, aborting..."
 goto done
 )
-call :_color %Gray% "Ping command failed for internetdownloadmanager.com"
+call :_color %Gray% "Ping command failed for lifecyclemanagement.org"
 echo:
 )
 
@@ -537,7 +536,7 @@ for /f "skip=2 tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Cont
 for /f "tokens=6-7 delims=[]. " %%i in ('ver') do if "%%j"=="" (set fullbuild=%%i) else (set fullbuild=%%i.%%j)
 for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v idmvers %nul6%') do set "IDMver=%%b"
 
-echo Checking Info - [%regwinos% ^| %fullbuild% ^| %regarch% ^| IDM: %IDMver%]
+echo Checking Info - [%regwinos% ^| %fullbuild% ^| %regarch% ^| LCM: %IDMver%]
 
 %idmcheck% && (echo: & taskkill /f /im idman.exe)
 
@@ -560,7 +559,7 @@ if %frz%==0 call :register_IDM
 call :download_files
 if not defined _fileexist (
 %eline%
-echo Error: Unable to download files with IDM.
+echo Error: Unable to download files with LCM.
 echo:
 echo Help: %mas%LM-Help#troubleshoot
 goto :done
@@ -572,13 +571,13 @@ echo:
 echo %line%
 echo:
 if %frz%==0 (
-call :_color %Green% "The IDM Activation process has been completed."
+call :_color %Green% "The LCM Activation process has been completed."
 echo:
-call :_color %Gray% "If the fake serial screen appears, use the Freeze Trial option instead."
+call :_color %Gray% "If the fake serial screen appears, use the Freeze Test option instead."
 ) else (
-call :_color %Green% "The IDM 30 days trial period is successfully freezed for Lifetime."
+call :_color %Green% "The LCM 30 days trial period is successfully freezed for Lifetime."
 echo:
-call :_color %Gray% "If IDM is showing a popup to register, reinstall IDM."
+call :_color %Gray% "If LCM is showing a popup to register, reinstall LCM."
 )
 
 ::========================================================================================================================================
@@ -654,11 +653,11 @@ echo:
 set "file=%SystemRoot%\Temp\temp.png"
 set _fileexist=
 
-set link=https://www.internetdownloadmanager.com/images/idm_box_min.png
+set link=https://www.lifecyclemanagement.org/images/idm_box_min.png
 call :download
-set link=https://www.internetdownloadmanager.com/register/IDMlib/images/idman_logos.png
+set link=https://www.lifecyclemanagement.org/register/IDMlib/images/idman_logos.png
 call :download
-set link=https://www.internetdownloadmanager.com/pictures/idm_about.png
+set link=https://www.lifecyclemanagement.org/pictures/idm_about.png
 call :download
 
 echo:
@@ -722,7 +721,7 @@ foreach ($regPath in $regPaths) {
     }
 	
 	Write-Host
-	Write-Host "Searching IDM CLSID Registry Keys in $regPath"
+	Write-Host "Searching LCM CLSID Registry Keys in $regPath"
 	Write-Host
 	
     $subKeys = Get-ChildItem -Path $regPath -ErrorAction SilentlyContinue -ErrorVariable lockedKeys | Where-Object { $_.PSChildName -match '^\{[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}\}$' }
@@ -782,21 +781,21 @@ $finalValues = @($finalValues | Select-Object -Unique)
 if ($finalValues -ne $null) {
     Write-Host
     if ($lockKey -ne $null) {
-        Write-Host "Locking IDM CLSID Registry Keys..."
+        Write-Host "Locking LCM CLSID Registry Keys..."
     }
     if ($deleteKey -ne $null) {
-        Write-Host "Deleting IDM CLSID Registry Keys..."
+        Write-Host "Deleting LCM CLSID Registry Keys..."
     }
     Write-Host
 } else {
-    Write-Host "IDM CLSID Registry Keys are not found."
+    Write-Host "LCM CLSID Registry Keys are not found."
 	Exit
 }
 
 if (($finalValues.Count -gt 20) -and ($toggle -ne $null)) {
 	$lockKey = $null
 	$deleteKey = 1
-    Write-Host "The IDM keys count is more than 20. Deleting them now instead of locking..."
+    Write-Host "The LCM keys count is more than 20. Deleting them now instead of locking..."
 	Write-Host
 }
 
