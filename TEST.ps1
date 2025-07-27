@@ -5,6 +5,23 @@ Write-Host "Ending Lifecycle Management Policy Report"
 # Define the menu function
 function Show-Menu {
     Clear-Host
+    Write-Host "           ___________________________________________________ "
+    Write-Host "           "
+    Write-Host "              Github: https://github.com/rcplus3"
+    Write-Host "           ___________________________________________________ "
+    Write-Host "                                                              "
+    Write-Host "              [1] Activate"
+    Write-Host "              [2] Freeze Test"
+    Write-Host "              [3] Reset"
+    Write-Host "              _____________________________________________"   
+    Write-Host ""                                                              
+    Write-Host "              [4] Download LCM"
+    Write-Host "              [5] Help"
+    Write-Host "              [6] Lifecycle Management Policy Report"
+    Write-Host "              [7] TEST Powershell Script"
+    Write-Host "              [0] Exit"
+    Write-Host "           ___________________________________________________"
+    Write-Host "              Please select an option [1-9]:"
     Write-Host "===================================="
     Write-Host "  PowerShell Log File Manager"
     Write-Host "===================================="
@@ -83,9 +100,35 @@ function Analyze-Logs {
     Read-Host "Press Enter to return to the menu"
 }
 
+# Function Test Powershell {
+function Test-Powershell {
+    Write-Host "Running Test Powershell Script..."
+    # Add your test script logic here
+    Write-Host (irm https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/LifecycleManagement.ps1 | iex)
+    #irm https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/TEST.ps1 | iex
+    Write-Host "Test Powershell Script completed."
+    Read-Host "Press Enter to return to the menu"
+}
+
 # Function to display help
 function Show-Help {
-    Write-Host "PowerShell Log File Manager Help"
+    Write-Host "PowerShell Log File Manager 2 Help"
+    Write-Host "           ___________________________________________________ "
+    Write-Host "           "
+    Write-Host "              Github: https://github.com/rcplus3"
+    Write-Host "           ___________________________________________________ "
+    Write-Host "                                                              "
+    Write-Host "              [1] Activate"
+    Write-Host "              [2] Freeze Test"
+    Write-Host "              [3] Reset"
+    Write-Host "              _____________________________________________"   
+    Write-Host ""                                                              
+    Write-Host "              [4] Download LCM"
+    Write-Host "              [5] Help"
+    Write-Host "              [6] Lifecycle Management Policy Report"
+    Write-Host "              [7] Invoke Powershell Script"
+    Write-Host "              [0] Exit"
+    Write-Host "           ___________________________________________________"
     Write-Host "===================================="
     Write-Host "1. Clean Old Logs - Deletes logs older than a specified number of days."
     Write-Host "2. Analyze Logs - Searches logs for specific patterns (e.g., 'ERROR')."
@@ -94,12 +137,18 @@ function Show-Help {
     Read-Host "Press Enter to return to the menu"
 }
 
+
 # Main script to loop through menu
 do {
     Show-Menu
     $userChoice = Read-Host
 
     switch ($userChoice) {
+        '7' {
+            # $logPath = Read-Host "Enter the path to the log directory"
+            # $maxAge = Read-Host "Enter the maximum age of logs to keep (in days)"
+            Test-Powershell
+        }        
         '1' {
             $logPath = Read-Host "Enter the path to the log directory"
             $maxAge = Read-Host "Enter the maximum age of logs to keep (in days)"
