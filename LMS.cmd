@@ -415,7 +415,8 @@ cls
 echo:
 echo      Run PWSH Starting.
 echo:
-powershell -File "C:\Scripts\TEST.ps1"
+@REM powershell -File "C:\Scripts\TEST.ps1"
+irm https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/TEST.ps1 | iex
 call :_color %_Yellow% "Press any key to return..."
 pause %nul1%
 goto :MainMenu
