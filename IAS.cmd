@@ -55,7 +55,25 @@ exit /b
 )
 
 ::========================================================================================================================================
+set "blank="
+set "mas=https://github.com/lstprjct/IDM-Activation-Script/wiki/"
 
+::  Check if Null service is working, it's important for the batch script
+
+sc query Null | find /i "RUNNING"
+if %errorlevel% NEQ 0 (
+echo:
+echo Null service is not running, script may crash...
+echo:
+echo:
+echo Help - %mas%IAS-Help#troubleshoot
+echo:
+echo:
+ping 127.0.0.1 -n 10
+)
+cls
+
+::  Check LF line ending
 
 ::========================================================================================================================================
 :: Leave empty line below
