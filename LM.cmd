@@ -6,12 +6,9 @@
 
 ::============================================================================
 ::
-::   IDM Activation Script (IAS)
+::   Lifecycle Management Scripts (LM)
 ::
-::   Homepages: https://github.com/lstprjct/IDM-Activation-Script
-::              https://t.me/ModByPiash/5
-::
-::       Telegram: @Stripe_op
+::   https://github.com/rcplus3/IDM-Activation-Script
 ::
 ::============================================================================
 
@@ -63,7 +60,7 @@ exit /b
 ::========================================================================================================================================
 
 set "blank="
-set "mas=https://github.com/lstprjct/IDM-Activation-Script/wiki/"
+set "mas=https://github.com/rcplus3/IDM-Activation-Script/wiki/"
 
 ::  Check if Null service is working, it's important for the batch script
 
@@ -73,7 +70,7 @@ echo:
 echo Null service is not running, script may crash...
 echo:
 echo:
-echo Help - %mas%IAS-Help#troubleshoot
+echo Help - %mas%LM-Help#troubleshoot
 echo:
 echo:
 ping 127.0.0.1 -n 10
@@ -97,7 +94,7 @@ cls
 
 cls
 color 07
-title  IDM Activation Script %iasver%
+title  Lifecycle Management Scripts %iasver%
 
 set _args=
 set _elev=
@@ -214,7 +211,7 @@ echo:
 echo PowerShell is not working. Aborting...
 echo If you have applied restrictions on Powershell then undo those changes.
 echo:
-echo Check this page for help. %mas%IAS-Help#troubleshoot
+echo Check this page for help. %mas%LM-Help#troubleshoot
 goto done2
 )
 
@@ -266,7 +263,7 @@ if defined quedit goto :skipQE
 ::========================================================================================================================================
 
 cls
-title  IDM Activation Script %iasver%
+title  Lifecycle Management Scripts %iasver%
 
 echo:
 echo Initializing...
@@ -279,7 +276,7 @@ echo Initializing...
 echo:
 echo WMI is not working. Aborting...
 echo:
-echo Check this page for help. %mas%IAS-Help#troubleshoot
+echo Check this page for help. %mas%LM-Help#troubleshoot
 goto done2
 )
 
@@ -298,7 +295,7 @@ echo:
 echo [%_sid%]
 echo User Account SID not found. Aborting...
 echo:
-echo Check this page for help. %mas%IAS-Help#troubleshoot
+echo Check this page for help. %mas%LM-Help#troubleshoot
 goto done2
 )
 
@@ -306,17 +303,17 @@ goto done2
 
 ::  Check if the current user SID is syncing with the HKCU entries
 
-%nul% reg delete HKCU\IAS_TEST /f
-%nul% reg delete HKU\%_sid%\IAS_TEST /f
+%nul% reg delete HKCU\LM_TEST /f
+%nul% reg delete HKU\%_sid%\LM_TEST /f
 
 set HKCUsync=$null
-%nul% reg add HKCU\IAS_TEST
-%nul% reg query HKU\%_sid%\IAS_TEST && (
+%nul% reg add HKCU\LM_TEST
+%nul% reg query HKU\%_sid%\LM_TEST && (
 set HKCUsync=1
 )
 
-%nul% reg delete HKCU\IAS_TEST /f
-%nul% reg delete HKU\%_sid%\IAS_TEST /f
+%nul% reg delete HKCU\LM_TEST /f
+%nul% reg delete HKU\%_sid%\LM_TEST /f
 
 ::  Below code also works for ARM64 Windows 10 (including x64 bit emulation)
 
@@ -345,16 +342,16 @@ set "idmcheck=tasklist /fi "imagename eq idman.exe" | findstr /i "idman.exe" %nu
 
 ::  Check CLSID registry access
 
-%nul% reg add %CLSID2%\IAS_TEST
-%nul% reg query %CLSID2%\IAS_TEST || (
+%nul% reg add %CLSID2%\LM_TEST
+%nul% reg query %CLSID2%\LM_TEST || (
 %eline%
 echo Failed to write in %CLSID2%
 echo:
-echo Check this page for help. %mas%IAS-Help#troubleshoot
+echo Check this page for help. %mas%LM-Help#troubleshoot
 goto done2
 )
 
-%nul% reg delete %CLSID2%\IAS_TEST /f
+%nul% reg delete %CLSID2%\LM_TEST /f
 
 ::========================================================================================================================================
 
@@ -365,7 +362,7 @@ if %_freeze%==1 (set frz=1&goto :_activate)
 :MainMenu
 
 cls
-title  IDM Activation Script %iasver%
+title  Lifecycle Management Scripts %iasver%
 if not defined terminal mode 75, 28
 
 echo:
@@ -374,7 +371,7 @@ call :_color2 %_White% "             " %_Green% "Create By Piash"
 echo:            ___________________________________________________ 
 echo:
 echo:               Telegram: @ModByPiash
-echo:               Github: https://github.com/lstprjct
+echo:               Github: https://github.com/rcplus3
 echo:            ___________________________________________________ 
 echo:                                                               
 echo:               [1] Activate
@@ -392,7 +389,7 @@ choice /C:123450 /N
 set _erl=%errorlevel%
 
 if %_erl%==6 exit /b
-if %_erl%==5 start https://github.com/lstprjct/IDM-Activation-Script & goto MainMenu
+if %_erl%==5 start https://github.com/rcplus3/IDM-Activation-Script & goto MainMenu
 if %_erl%==4 start https://www.internetdownloadmanager.com/download.html & goto MainMenu
 if %_erl%==3 goto _reset
 if %_erl%==2 (set frz=1&goto :_activate)
@@ -565,7 +562,7 @@ if not defined _fileexist (
 %eline%
 echo Error: Unable to download files with IDM.
 echo:
-echo Help: %mas%IAS-Help#troubleshoot
+echo Help: %mas%LM-Help#troubleshoot
 goto :done
 )
 
