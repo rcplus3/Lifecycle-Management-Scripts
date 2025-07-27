@@ -374,27 +374,51 @@ echo:            ___________________________________________________
 echo:                                                               
 echo:               [1] Activate
 echo:               [2] Freeze Test
-@REM echo:               [3] Reset Activation / Test
-@REM echo:               _____________________________________________   
-@REM echo:                                                               
-@REM echo:               [4] Download LCM
-@REM echo:               [5] Help
-@REM echo:               [0] Exit
+echo:               [3] Reset
+echo:               _____________________________________________   
+echo:                                                               
+echo:               [4] Download LCM
+echo:               [5] Help
+echo:               [6] Lifecycle Management Policy Report
+echo:               [7] Invoke Powershell Script
+echo:               [0] Exit
 echo:            ___________________________________________________
 echo:         
-call :_color2 %_White% "             " %_Green% "Enter a menu option in the Keyboard [1,2,3,4,5,0]"
-choice /C:123450 /N
+call :_color2 %_White% "             " %_Green% "Enter a menu option in the Keyboard [1,2,3,4,5,6,0]"
+choice /C:12345670 /N
 set _erl=%errorlevel%
 
-if %_erl%==6 exit /b
+if %_erl%==9 exit /b
+if %_erl%==7 (goto :_run_pwsh)
+if %_erl%==6 (set frz=0&goto :_lifecycle_policy)
 if %_erl%==5 start https://github.com/rcplus3/LCM-Activation-Script & goto MainMenu
 if %_erl%==4 start https://www.lifecyclemanagement.org/download.html & goto MainMenu
-if %_erl%==3 goto _reset
+@REM if %_erl%==3 goto _reset
+if %_erl%==3 goto _lifecycle_policy
 if %_erl%==2 (set frz=1&goto :_activate)
 if %_erl%==1 (set frz=0&goto :_activate)
 goto :MainMenu
 
 ::========================================================================================================================================
+:_lifecycle_policy
+echo:
+echo      LCM Starting.
+echo:
+@REM if !errorlevel!==1 goto :MainMenu
+call :_color %_Yellow% "Press any key to return..."
+pause %nul1%
+goto :MainMenu
+cls
+
+:_run_pwsh
+echo:
+echo      Run PWSH Starting.
+echo:
+powershell -File "C:\Scripts\YourScript.ps1"
+call :_color %_Yellow% "Press any key to return..."
+pause %nul1%
+goto :MainMenu
+cls
 
 :_reset
 
