@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 # Enable TLSv1.2 for compatibility with older clients
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
-$DownloadURL = 'https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/LM.cmd'
+$DownloadURL = 'https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/LMS.cmd'
 $DownloadURL2 = 'https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/SA.cmd'
 
 $rand = Get-Random -Maximum 99999999

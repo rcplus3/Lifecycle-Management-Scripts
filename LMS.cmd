@@ -5,7 +5,7 @@
 
 ::============================================================================
 ::
-::   Lifecycle Management Scripts (LM)
+::   Lifecycle Management Scripts (LMS)
 ::
 ::   https://github.com/rcplus3/LCM-Activation-Script
 ::
