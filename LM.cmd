@@ -365,24 +365,24 @@ cls
 title  Lifecycle Management Scripts %iasver%
 if not defined terminal mode 75, 28
 
-@REM echo:
-@REM echo:
-@REM call :_color2 %_White% "             " %_Green% "Create By rcplus3"
-@REM echo:            ___________________________________________________ 
-@REM echo:
-@REM echo:               Github: https://github.com/rcplus3
-@REM echo:            ___________________________________________________ 
-@REM echo:                                                               
-@REM echo:               [1] Activate
-@REM echo:               [2] Freeze Test
+echo:
+echo:
+call :_color2 %_White% "             " %_Green% "Create By rcplus3"
+echo:            ___________________________________________________ 
+echo:
+echo:               Github: https://github.com/rcplus3
+echo:            ___________________________________________________ 
+echo:                                                               
+echo:               [1] Activate
+echo:               [2] Freeze Test
 @REM echo:               [3] Reset Activation / Test
 @REM echo:               _____________________________________________   
 @REM echo:                                                               
 @REM echo:               [4] Download LCM
 @REM echo:               [5] Help
 @REM echo:               [0] Exit
-@REM echo:            ___________________________________________________
-@REM echo:         
+echo:            ___________________________________________________
+echo:         
 call :_color2 %_White% "             " %_Green% "Enter a menu option in the Keyboard [1,2,3,4,5,0]"
 choice /C:123450 /N
 set _erl=%errorlevel%
