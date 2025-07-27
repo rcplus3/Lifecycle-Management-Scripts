@@ -1,4 +1,4 @@
-@set iasver=1.2
+@set lmver=1.3
 @setlocal DisableDelayedExpansion
 @echo off
 
@@ -93,7 +93,7 @@ cls
 
 cls
 color 07
-title  Lifecycle Management Scripts %iasver%
+title  Lifecycle Management Scripts %lmver%
 
 set _args=
 set _elev=
@@ -262,7 +262,7 @@ if defined quedit goto :skipQE
 ::========================================================================================================================================
 
 cls
-title  Lifecycle Management Scripts %iasver%
+title  Lifecycle Management Scripts %lmver%
 
 echo:
 echo Initializing...
@@ -361,7 +361,7 @@ if %_freeze%==1 (set frz=1&goto :_activate)
 :MainMenu
 
 cls
-title  Lifecycle Management Scripts %iasver%
+title  Lifecycle Management Scripts %lmver%
 if not defined terminal mode 75, 28
 
 echo:
