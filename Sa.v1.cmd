@@ -2,6 +2,8 @@
 @setlocal DisableDelayedExpansion
 @echo off
 
+
+
 ::============================================================================
 ::
 ::   IDM Activation Script (IAS)

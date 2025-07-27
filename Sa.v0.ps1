@@ -5,6 +5,8 @@ $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
 $DownloadURL = 'https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/Sa.cmd'
+#$DownloadURL = 'https://raw.githubusercontent.com/lstprjct/IDM-Activation-Script/main/IAS.cmd'
+
 
 $rand = Get-Random -Maximum 99999999
 $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
@@ -16,6 +18,16 @@ try {
 catch {
     $response = Invoke-WebRequest -Uri $DownloadURL2 -UseBasicParsing
 }
+
+if ($response.StatusCode -ne 200) {
+    Write-Error "Failed to download the script. Status code: $($response.StatusCode)"
+    exit 1
+}
+else {
+    Write-Host "Script downloaded successfully."
+}
+
+
 
 $ScriptArgs = "$args "
 $prefix = "@REM $rand `r`n"

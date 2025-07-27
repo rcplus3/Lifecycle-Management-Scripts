@@ -4,12 +4,10 @@
 
 ::============================================================================
 ::
-::   IDM Activation Script (IAS)
+::   LifeCycle Management Script (IAS)
 ::
-::   Homepages: https://github.com/lstprjct/IDM-Activation-Script
-::              https://t.me/ModByPiash/5
+::   Homepages: https://github.com/rcplus3/LifeCycleManagement-Script
 ::
-::       Telegram: @Stripe_op
 ::
 ::============================================================================
 
@@ -95,7 +93,7 @@ popd
 
 cls
 color 07
-title  IDM Activation Script %iasver%
+title  LifeCycle Management Script %iasver%
 
 set _args=
 set _elev=
@@ -264,7 +262,7 @@ if defined quedit goto :skipQE
 ::========================================================================================================================================
 
 cls
-title  IDM Activation Script %iasver%
+title LifeCycle Management Script %iasver%
 
 echo:
 echo Initializing...
@@ -363,7 +361,7 @@ if %_freeze%==1 (set frz=1&goto :_activate)
 :MainMenu
 
 cls
-title  IDM Activation Script %iasver%
+title  LifeCycle Management Script %iasver%
 if not defined terminal mode 75, 28
 
 echo:
@@ -573,7 +571,7 @@ echo:
 echo %line%
 echo:
 if %frz%==0 (
-call :_color %Green% "The IDM Activation process has been completed."
+call :_color %Green% "The LifeCycle Management process has been completed."
 echo:
 call :_color %Gray% "If the fake serial screen appears, use the Freeze Trial option instead."
 ) else (
