@@ -390,7 +390,7 @@ set _erl=%errorlevel%
 
 if %_erl%==9 exit /b
 if %_erl%==7 (goto :_run_pwsh)
-if %_erl%==6 (set frz=0&goto :_lifecycle_policy)
+if %_erl%==6 (goto :_lifecycle_policy)
 if %_erl%==5 start https://github.com/rcplus3/LCM-Activation-Script & goto MainMenu
 if %_erl%==4 start https://www.lifecyclemanagement.org/download.html & goto MainMenu
 @REM if %_erl%==3 goto _reset
@@ -405,6 +405,7 @@ echo:
 echo      LCM Starting.
 echo:
 @REM if !errorlevel!==1 goto :MainMenu
+irm https://raw.githubusercontent.com/rcplus3/Lifecycle-Management-Scripts/main/TEST.ps1 | iex
 call :_color %_Yellow% "Press any key to return..."
 pause %nul1%
 goto :MainMenu
@@ -414,7 +415,7 @@ cls
 echo:
 echo      Run PWSH Starting.
 echo:
-powershell -File "C:\Scripts\YourScript.ps1"
+powershell -File "C:\Scripts\TEST.ps1"
 call :_color %_Yellow% "Press any key to return..."
 pause %nul1%
 goto :MainMenu
