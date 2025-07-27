@@ -60,7 +60,7 @@ exit /b
 ::========================================================================================================================================
 
 set "blank="
-set "mas=https://github.com/rcplus3/LCM-Activation-Script/wiki/"
+set "mas=https://github.com/rcplus3/Lifecycle-Management-Scripts/wiki/"
 
 ::  Check if Null service is working, it's important for the batch script
 
@@ -323,22 +323,22 @@ if /i not "%arch%"=="x86" set arch=x64
 if "%arch%"=="x86" (
 set "CLSID=HKCU\Software\Classes\CLSID"
 set "CLSID2=HKU\%_sid%\Software\Classes\CLSID"
-set "HKLM=HKLM\Software\Internet Download Manager"
+set "HKLM=HKLM\Software\Lifecycle Management App"
 ) else (
 set "CLSID=HKCU\Software\Classes\Wow6432Node\CLSID"
 set "CLSID2=HKU\%_sid%\Software\Classes\Wow6432Node\CLSID"
-set "HKLM=HKLM\SOFTWARE\Wow6432Node\Internet Download Manager"
+set "HKLM=HKLM\SOFTWARE\Wow6432Node\Lifecycle Management App"
 )
 
-for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v ExePath %nul6%') do call set "IDMan=%%b"
+for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v ExePath %nul6%') do call set "LMApp=%%b"
 
-if not exist "%IDMan%" (
-if %arch%==x64 set "IDMan=%ProgramFiles(x86)%\Internet Download Manager\IDMan.exe"
-if %arch%==x86 set "IDMan=%ProgramFiles%\Internet Download Manager\IDMan.exe"
+if not exist "%LMApp%" (
+if %arch%==x64 set "LMApp=%ProgramFiles(x86)%\Lifecycle Management App\LMApp.exe"
+if %arch%==x86 set "LMApp=%ProgramFiles%\Lifecycle Management App\LMApp.exe"
 )
 
 if not exist %SystemRoot%\Temp md %SystemRoot%\Temp
-set "idmcheck=tasklist /fi "imagename eq idman.exe" | findstr /i "idman.exe" %nul1%"
+set "lmcheck=tasklist /fi "imagename eq idman.exe" | findstr /i "idman.exe" %nul1%"
 
 ::  Check CLSID registry access
 
@@ -365,24 +365,24 @@ cls
 title  Lifecycle Management Scripts %iasver%
 if not defined terminal mode 75, 28
 
-echo:
-echo:
-call :_color2 %_White% "             " %_Green% "Create By rcplus3"
-echo:            ___________________________________________________ 
-echo:
-echo:               Github: https://github.com/rcplus3
-echo:            ___________________________________________________ 
-echo:                                                               
-echo:               [1] Activate
-echo:               [2] Freeze Test
-echo:               [3] Reset Activation / Test
-echo:               _____________________________________________   
-echo:                                                               
-echo:               [4] Download LCM
-echo:               [5] Help
-echo:               [0] Exit
-echo:            ___________________________________________________
-echo:         
+@REM echo:
+@REM echo:
+@REM call :_color2 %_White% "             " %_Green% "Create By rcplus3"
+@REM echo:            ___________________________________________________ 
+@REM echo:
+@REM echo:               Github: https://github.com/rcplus3
+@REM echo:            ___________________________________________________ 
+@REM echo:                                                               
+@REM echo:               [1] Activate
+@REM echo:               [2] Freeze Test
+@REM echo:               [3] Reset Activation / Test
+@REM echo:               _____________________________________________   
+@REM echo:                                                               
+@REM echo:               [4] Download LCM
+@REM echo:               [5] Help
+@REM echo:               [0] Exit
+@REM echo:            ___________________________________________________
+@REM echo:         
 call :_color2 %_White% "             " %_Green% "Enter a menu option in the Keyboard [1,2,3,4,5,0]"
 choice /C:123450 /N
 set _erl=%errorlevel%
@@ -408,7 +408,7 @@ if not defined terminal mode 113, 35
 if not defined terminal %psc% "&%_buf%" %nul%
 
 echo:
-%idmcheck% && taskkill /f /im idman.exe
+%lmcheck% && taskkill /f /im idman.exe
 
 set _time=
 for /f %%a in ('%psc% "(Get-Date).ToString('yyyyMMdd-HHmmssfff')"') do set _time=%%a
@@ -511,8 +511,8 @@ cls
 )
 
 echo:
-if not exist "%IDMan%" (
-call :_color %Red% "LCM [Internet Download Manager] is not Installed."
+if not exist "%LMApp%" (
+call :_color %Red% "LCM [Lifecycle Management App] is not Installed."
 echo You can download it from  https://www.lifecyclemanagement.org/download.html
 goto done
 )
@@ -538,7 +538,7 @@ for /f "tokens=2*" %%a in ('reg query "HKU\%_sid%\Software\DownloadManager" /v i
 
 echo Checking Info - [%regwinos% ^| %fullbuild% ^| %regarch% ^| LCM: %IDMver%]
 
-%idmcheck% && (echo: & taskkill /f /im idman.exe)
+%lmcheck% && (echo: & taskkill /f /im idman.exe)
 
 set _time=
 for /f %%a in ('%psc% "(Get-Date).ToString('yyyyMMdd-HHmmssfff')"') do set _time=%%a
@@ -662,7 +662,7 @@ call :download
 
 echo:
 timeout /t 3 %nul1%
-%idmcheck% && taskkill /f /im idman.exe
+%lmcheck% && taskkill /f /im idman.exe
 if exist "%file%" del /f /q "%file%"
 exit /b
 
@@ -670,7 +670,7 @@ exit /b
 
 set /a attempt=0
 if exist "%file%" del /f /q "%file%"
-start "" /B "%IDMan%" /n /d "%link%" /p "%SystemRoot%\Temp" /f temp.png
+start "" /B "%LMApp%" /n /d "%link%" /p "%SystemRoot%\Temp" /f temp.png
 
 :check_file
 
